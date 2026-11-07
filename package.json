@@ -1,0 +1,26 @@
+{
+  "name": "payment-card-form",
+  "version": "0.1.0",
+  "description": "Accessible card form playground built with TypeScript and vanilla-extract",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "typecheck": "tsc --noEmit",
+    "test": "playwright test",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4174 --strictPort",
+    "check": "npm run typecheck && npm run build && npm test"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.0",
+    "@types/node": "^24.0.0",
+    "@vanilla-extract/css": "^1.21.3",
+    "@vanilla-extract/vite-plugin": "^5.2.6",
+    "typescript": "^5.9.0",
+    "vite": "^7.2.0"
+  }
+}
