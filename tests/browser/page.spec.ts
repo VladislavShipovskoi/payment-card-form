@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { fillDetails } from "./helpers.js";
 
 test("loads the playground without browser errors", async ({ page }) => {
   const errors: string[] = [];
@@ -31,6 +32,7 @@ test("provides native card fields with labels and autocomplete", async ({
     "Month and year: MM/YY",
   );
   await expect(page.locator("#card-cvv")).toBeHidden();
+  await fillDetails(page);
   await page.getByRole("button", { name: "Continue to security code" }).click();
   await expect(page.getByLabel(/^Security code/)).toHaveAttribute(
     "autocomplete",
@@ -55,6 +57,7 @@ test("preserves native input and prevents form navigation", async ({
     "dsfsdfdsfdsf2202206271714979",
   );
   await page.locator("#card-holder").fill("  李   Иванов  ");
+  await page.locator("#card-expiry").fill("12/29");
   const url = page.url();
   await page.getByRole("button", { name: "Continue to security code" }).click();
   await page.locator("#card-cvv").fill("123");
@@ -81,6 +84,7 @@ for (const width of [320, 375, 768, 1280]) {
       expect(bounds!.width).toBeGreaterThan(100);
       expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(width);
     }
+    await fillDetails(page);
     await page
       .getByRole("button", { name: "Continue to security code" })
       .click();
@@ -123,11 +127,12 @@ test("reveals CVV after continuing and preserves values when returning", async (
   await expect(page.locator("#card-cvv")).toHaveValue("123");
 });
 
-test("uses an always-passing temporary gate and respects reduced motion", async ({
+test("uses temporary card checks after completion and respects reduced motion", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
+  await fillDetails(page);
   await page.getByRole("button", { name: "Continue to security code" }).click();
   await expect(page.locator("#card-cvv")).toBeFocused();
   await expect(page.locator("#card-preview")).toHaveCSS(

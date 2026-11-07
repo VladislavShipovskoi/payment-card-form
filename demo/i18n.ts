@@ -1,0 +1,66 @@
+export type Locale = "en" | "ru";
+
+const en = {
+  language: "Form language",
+  darkTheme: "Dark theme",
+  formTitle: "Card details",
+  detailsLegend: "Step 1 of 2: card details",
+  securityLegend: "Step 2 of 2: security code",
+  detailsStep: "01 — CARD DETAILS",
+  securityStep: "02 — SECURITY CODE",
+  number: "Card number",
+  expiry: "Expiry date",
+  holder: "Cardholder name",
+  cvv: "Security code",
+  required: "(required)",
+  dateFormat: "MM/YY",
+  holderPlaceholder: "Name on card",
+  expiryHint: "Month and year: MM/YY",
+  cvvHint: "The 3 or 4 digit code on your card.",
+  continue: "Continue to security code",
+  back: "Back to details",
+  submit: "Try the form",
+  reset: "Reset form",
+  cardName: "NAME ON CARD",
+  cardExpiry: "EXPIRY DATE",
+  cardSecurity: "SECURITY CODE",
+  note: "This demo does not validate cards or make payments.",
+  submitted:
+    "Demo only: validation and payments are not connected. Nothing was sent.",
+  cleared: "Form cleared. Nothing was sent.",
+};
+
+export type MessageKey = keyof typeof en;
+
+export const messages: Record<Locale, Record<MessageKey, string>> = {
+  en,
+  ru: {
+    language: "Язык формы",
+    darkTheme: "Тёмная тема",
+    formTitle: "Данные карты",
+    detailsLegend: "Шаг 1 из 2: данные карты",
+    securityLegend: "Шаг 2 из 2: код безопасности",
+    detailsStep: "01 — ДАННЫЕ КАРТЫ",
+    securityStep: "02 — КОД БЕЗОПАСНОСТИ",
+    number: "Номер карты",
+    expiry: "Срок действия",
+    holder: "Владелец карты",
+    cvv: "Код безопасности",
+    required: "(обязательно)",
+    dateFormat: "ММ/ГГ",
+    holderPlaceholder: "Имя на карте",
+    expiryHint: "Месяц и год: ММ/ГГ",
+    cvvHint: "Код из 3 или 4 цифр на вашей карте.",
+    continue: "Перейти к коду безопасности",
+    back: "Назад к данным",
+    submit: "Проверить демо",
+    reset: "Очистить форму",
+    cardName: "ИМЯ НА КАРТЕ",
+    cardExpiry: "СРОК ДЕЙСТВИЯ",
+    cardSecurity: "КОД БЕЗОПАСНОСТИ",
+    note: "Это демо не проверяет карты и не проводит платежи.",
+    submitted:
+      "Это демо: проверка и оплата не подключены. Данные не отправлены.",
+    cleared: "Форма очищена. Данные не отправлены.",
+  },
+};

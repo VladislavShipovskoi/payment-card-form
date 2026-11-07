@@ -212,26 +212,68 @@ const noticeText = style({
 const playground = style({ minWidth: 0 });
 
 const toolbar = style({
-  display: "flex",
-  justifyContent: "space-between",
-  flexWrap: "wrap",
-  gap: `${tokens.space[8]} ${tokens.space[16]}`,
+  display: "grid",
+  gap: tokens.space[8],
   margin: `0 ${tokens.space[4]} ${tokens.space[16]}`,
   fontSize: tokens.fontSize[9],
   color: tokens.color.muted,
   letterSpacing: tokens.letterSpacing.label,
 });
 
-const toolbarTitle = style({ fontWeight: tokens.fontWeight.strong });
+const toolbarControls = style({
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  gap: tokens.space[12],
+  flexWrap: "wrap",
+});
+const languageControls = style({
+  display: "flex",
+  gap: tokens.space[4],
+  padding: tokens.space[4],
+  border: `${tokens.borderWidth.thin} solid ${tokens.color.border}`,
+  borderRadius: tokens.radius.small,
+});
+const controlButton = style({
+  minHeight: tokens.size.link,
+  minWidth: tokens.size.control,
+  padding: `${tokens.space[8]} ${tokens.space[12]}`,
+  border: 0,
+  borderRadius: tokens.radius.badge,
+  background: "transparent",
+  color: tokens.color.muted,
+  fontSize: tokens.fontSize[11],
+  fontWeight: tokens.fontWeight.strong,
+  cursor: "pointer",
+  selectors: {
+    '&[aria-pressed="true"]': {
+      background: tokens.color.accent,
+      color: tokens.color.onAccent,
+    },
+    '&:hover:not([aria-pressed="true"])': {
+      background: tokens.color.selection,
+    },
+  },
+});
+const themeButton = style([
+  controlButton,
+  {
+    border: `${tokens.borderWidth.thin} solid ${tokens.color.border}`,
+    borderRadius: tokens.radius.small,
+  },
+]);
 
 const form = style({
   display: "grid",
   position: "relative",
   minWidth: 0,
   background: tokens.color.surface,
+  color: tokens.color.text,
+  colorScheme: "light",
   border: `${tokens.borderWidth.thin} solid ${tokens.color.border}`,
   borderRadius: tokens.radius.form,
   padding: tokens.size.formPadding,
+  selectors: { '&[data-theme="dark"]': { colorScheme: "dark" } },
 });
 
 const fieldset = style({
@@ -315,6 +357,8 @@ const submitButton = style({
   color: tokens.color.onAccent,
   cursor: "pointer",
   selectors: {
+    // Reserve the button's space so completion does not move the page columns.
+    "&[hidden]": { visibility: "hidden", pointerEvents: "none" },
     "&:hover:not(:disabled)": { background: tokens.color.accentHover },
     "&:disabled": disabledControl,
   },
@@ -332,6 +376,7 @@ const actions = style({
   display: "grid",
   gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
   gap: tokens.space[12],
+  "@media": { [media.narrow]: { gridTemplateColumns: "minmax(0, 1fr)" } },
 });
 
 const backButton = style([
@@ -513,7 +558,10 @@ export const styles = {
   noticeText,
   playground,
   toolbar,
-  toolbarTitle,
+  toolbarControls,
+  languageControls,
+  controlButton,
+  themeButton,
   form,
   fieldset,
   label,

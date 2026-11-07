@@ -1,4 +1,4 @@
-import { createGlobalTheme } from "@vanilla-extract/css";
+import { createGlobalTheme, createTheme } from "@vanilla-extract/css";
 
 export const palette = {
   page: "#f6f5f1",
@@ -30,6 +30,7 @@ export const palette = {
 
 export const media = {
   mobile: "(max-width: 850px)",
+  narrow: "(max-width: 380px)",
   reducedMotion: "(prefers-reduced-motion: reduce)",
 } as const;
 
@@ -131,4 +132,18 @@ export const tokens = createGlobalTheme(":root", {
   motion: { flipDuration: "600ms", flipEasing: "cubic-bezier(.2,.7,.2,1)" },
   layer: { skipLink: "10" },
   opacity: { disabled: "0.6" },
+});
+
+// Only form colors change; spacing and typography stay shared across themes.
+export const darkTheme = createTheme(tokens.color, {
+  ...palette,
+  page: "#111421",
+  surface: "#181b2b",
+  text: "#f3f2fc",
+  muted: "#b5b7ca",
+  accent: "#b0a5ff",
+  onAccent: "#181b2b",
+  accentHover: "#c4bbff",
+  border: "#62667e",
+  error: "#ff9caa",
 });

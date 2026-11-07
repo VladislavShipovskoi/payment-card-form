@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 import type { Page } from "@playwright/test";
 import type { FieldName } from "../../demo/form-ui.js";
+import { fillDetails } from "./helpers.js";
 
 async function setError(
   page: Page,
@@ -107,6 +108,8 @@ test.describe("internal presentation helpers @dev-only", () => {
     await setDisabled(page, false);
     await expect(page.locator("#card-number")).toBeEnabled();
     await expect(page.locator("#card-number")).toHaveValue("Test value");
+    await page.locator("#card-expiry").fill("12/29");
+    await page.locator("#card-holder").fill("Alex Morgan");
     await page
       .getByRole("button", { name: "Continue to security code" })
       .click();
@@ -172,6 +175,7 @@ test.describe("internal presentation helpers @dev-only", () => {
 test("supports skip navigation, Tab, Shift+Tab and keyboard actions", async ({
   page,
 }) => {
+  await fillDetails(page);
   const skip = page.getByRole("link", { name: "Skip to content" });
   await expect(skip).toHaveCSS("clip-path", "inset(50%)");
   await skip.focus();
@@ -180,6 +184,9 @@ test("supports skip navigation, Tab, Shift+Tab and keyboard actions", async ({
   await page.keyboard.press("Enter");
   await expect(page.getByRole("main")).toBeFocused();
   for (const selector of [
+    "#locale-en",
+    "#locale-ru",
+    "#theme-toggle",
     "#card-number",
     "#card-expiry",
     "#card-holder",
@@ -265,6 +272,7 @@ test("keeps the introduction stable when announcing submit and reset", async ({
       .locator('[data-ui="intro"]')
       .evaluate((el) => el.getBoundingClientRect().top + scrollY);
   const initial = await top();
+  await fillDetails(page);
   await page.getByRole("button", { name: "Continue to security code" }).click();
   await page.getByRole("button", { name: "Try the form" }).click();
   expect(await top()).toBeCloseTo(initial, 2);

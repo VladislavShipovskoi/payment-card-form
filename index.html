@@ -43,10 +43,51 @@
         </aside>
       </section>
 
-      <section data-ui="playground" aria-labelledby="form-title">
-        <div data-ui="toolbar" aria-hidden="true">
-          <span data-ui="toolbarTitle">THE INTERACTIVE PREVIEW</span>
-          <span id="step-indicator">01 — CARD DETAILS</span>
+      <section
+        id="form-panel"
+        data-ui="playground"
+        aria-labelledby="form-title"
+        lang="en"
+      >
+        <div data-ui="toolbar">
+          <div data-ui="toolbarControls">
+            <div
+              id="language-controls"
+              data-ui="languageControls"
+              role="group"
+              aria-label="Form language"
+            >
+              <button
+                id="locale-en"
+                data-ui="controlButton"
+                type="button"
+                lang="en"
+                aria-label="English"
+                aria-pressed="true"
+              >
+                EN
+              </button>
+              <button
+                id="locale-ru"
+                data-ui="controlButton"
+                type="button"
+                lang="ru"
+                aria-label="Русский"
+                aria-pressed="false"
+              >
+                RU
+              </button>
+            </div>
+            <button
+              id="theme-toggle"
+              data-ui="themeButton"
+              type="button"
+              aria-pressed="false"
+            >
+              <span data-copy="darkTheme">Dark theme</span>
+            </button>
+          </div>
+          <span id="step-indicator" aria-hidden="true">01 — CARD DETAILS</span>
         </div>
         <form
           id="card-form"
@@ -54,7 +95,9 @@
           novalidate
           aria-labelledby="form-title"
         >
-          <h2 id="form-title" data-ui="srOnly">Card details</h2>
+          <h2 id="form-title" data-ui="srOnly" data-copy="formTitle">
+            Card details
+          </h2>
           <div data-ui="preview" aria-hidden="true">
             <div id="card-preview" data-ui="card" data-side="front">
               <div data-ui="cardFace">
@@ -64,26 +107,36 @@
                 </div>
                 <div data-ui="cardNumber">•••• •••• •••• ••••</div>
                 <div data-ui="cardBottom">
-                  <span data-ui="cardName">NAME ON CARD</span>
+                  <span data-ui="cardName" data-copy="cardName"
+                    >NAME ON CARD</span
+                  >
                   <span data-ui="cardExpiry"
-                    ><span data-ui="cardCaption">EXPIRY DATE</span>MM/YY</span
+                    ><span data-ui="cardCaption" data-copy="cardExpiry"
+                      >EXPIRY DATE</span
+                    ><span data-copy="dateFormat">MM/YY</span></span
                   >
                 </div>
               </div>
               <div data-ui="cardBack">
                 <div data-ui="magneticStripe"></div>
                 <div data-ui="signature">•••</div>
-                <p data-ui="cardBackCaption">SECURITY CODE</p>
+                <p data-ui="cardBackCaption" data-copy="cardSecurity">
+                  SECURITY CODE
+                </p>
               </div>
             </div>
           </div>
 
           <fieldset id="details-step" data-ui="fieldset">
-            <legend data-ui="srOnly">Step 1 of 2: card details</legend>
+            <legend data-ui="srOnly" data-copy="detailsLegend">
+              Step 1 of 2: card details
+            </legend>
             <div>
               <label for="card-number" data-ui="label"
-                >Card number
-                <span data-ui="requiredText">(required)</span></label
+                ><span data-copy="number">Card number</span>
+                <span data-ui="requiredText" data-copy="required"
+                  >(required)</span
+                ></label
               >
               <input
                 id="card-number"
@@ -106,8 +159,10 @@
             </div>
             <div>
               <label for="card-expiry" data-ui="label"
-                >Expiry date
-                <span data-ui="requiredText">(required)</span></label
+                ><span data-copy="expiry">Expiry date</span>
+                <span data-ui="requiredText" data-copy="required"
+                  >(required)</span
+                ></label
               >
               <input
                 id="card-expiry"
@@ -120,9 +175,12 @@
                 spellcheck="false"
                 autocapitalize="off"
                 placeholder="MM/YY"
+                data-placeholder="dateFormat"
                 aria-describedby="expiry-hint"
               />
-              <p id="expiry-hint" data-ui="hint">Month and year: MM/YY</p>
+              <p id="expiry-hint" data-ui="hint" data-copy="expiryHint">
+                Month and year: MM/YY
+              </p>
               <p
                 id="expiry-error"
                 data-ui="error"
@@ -132,8 +190,10 @@
             </div>
             <div>
               <label for="card-holder" data-ui="label"
-                >Cardholder name
-                <span data-ui="requiredText">(required)</span></label
+                ><span data-copy="holder">Cardholder name</span>
+                <span data-ui="requiredText" data-copy="required"
+                  >(required)</span
+                ></label
               >
               <input
                 id="card-holder"
@@ -145,6 +205,7 @@
                 spellcheck="false"
                 autocapitalize="words"
                 placeholder="Name on card"
+                data-placeholder="holderPlaceholder"
               />
               <p
                 id="holder-error"
@@ -153,18 +214,29 @@
                 aria-atomic="true"
               ></p>
             </div>
-            <button type="submit" data-ui="submitButton">
-              Continue to security code <span aria-hidden="true">→</span>
+            <button
+              id="continue-button"
+              type="submit"
+              data-ui="submitButton"
+              hidden
+              disabled
+            >
+              <span data-copy="continue">Continue to security code</span>
+              <span aria-hidden="true">→</span>
             </button>
           </fieldset>
 
           <fieldset id="security-step" data-ui="fieldset" hidden>
-            <legend data-ui="srOnly">Step 2 of 2: security code</legend>
+            <legend data-ui="srOnly" data-copy="securityLegend">
+              Step 2 of 2: security code
+            </legend>
 
             <div>
               <label for="card-cvv" data-ui="label"
-                >Security code
-                <span data-ui="requiredText">(required)</span></label
+                ><span data-copy="cvv">Security code</span>
+                <span data-ui="requiredText" data-copy="required"
+                  >(required)</span
+                ></label
               >
               <input
                 id="card-cvv"
@@ -179,7 +251,7 @@
                 placeholder="•••"
                 aria-describedby="cvv-hint"
               />
-              <p id="cvv-hint" data-ui="hint">
+              <p id="cvv-hint" data-ui="hint" data-copy="cvvHint">
                 The 3 or 4 digit code on your card.
               </p>
               <p
@@ -190,15 +262,23 @@
               ></p>
             </div>
             <div data-ui="actions">
-              <button id="back-button" type="button" data-ui="backButton">
+              <button
+                id="back-button"
+                type="button"
+                data-ui="backButton"
+                data-copy="back"
+              >
                 Back to details
               </button>
               <button type="submit" data-ui="submitButton">
-                Try the form <span aria-hidden="true">↗</span>
+                <span data-copy="submit">Try the form</span>
+                <span aria-hidden="true">↗</span>
               </button>
             </div>
           </fieldset>
-          <button type="reset" data-ui="resetButton">Reset form</button>
+          <button type="reset" data-ui="resetButton" data-copy="reset">
+            Reset form
+          </button>
         </form>
         <p
           id="form-status"
@@ -206,7 +286,7 @@
           role="status"
           aria-atomic="true"
         ></p>
-        <p data-ui="formNote">
+        <p data-ui="formNote" data-copy="note">
           This demo does not validate cards or make payments.
         </p>
       </section>
