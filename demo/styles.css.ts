@@ -1,18 +1,19 @@
 import { globalStyle, style } from "@vanilla-extract/css";
-import { tokens } from "./tokens.css.js";
+import { media, tokens } from "./tokens.css.js";
 
-const mobile = "(max-width: 850px)";
-const narrow = "(max-width: 380px)";
-const focusRing = { outline: `3px solid ${tokens.accent}`, outlineOffset: 4 };
+const focusRing = {
+  outline: `${tokens.borderWidth.focus} solid ${tokens.color.accent}`,
+  outlineOffset: tokens.space[4],
+};
 
 globalStyle("*, *::before, *::after", { boxSizing: "border-box" });
 
 globalStyle("body", {
   margin: 0,
-  background: tokens.page,
-  color: tokens.text,
-  fontFamily: tokens.font,
-  lineHeight: 1.6,
+  background: tokens.color.page,
+  color: tokens.color.text,
+  fontFamily: tokens.fontFamily.body,
+  lineHeight: tokens.lineHeight.body,
 });
 
 globalStyle("button, input", { font: "inherit" });
@@ -24,7 +25,10 @@ globalStyle(
   focusRing,
 );
 
-globalStyle("::selection", { background: "#ded8fa", color: "#29283b" });
+globalStyle("::selection", {
+  background: tokens.color.selection,
+  color: tokens.color.text,
+});
 
 const srOnly = style({
   position: "absolute",
@@ -40,37 +44,42 @@ const srOnly = style({
 
 const skipLink = style({
   position: "fixed",
-  top: 12,
-  left: 12,
-  zIndex: 10,
+  top: tokens.space[12],
+  left: tokens.space[12],
+  zIndex: tokens.layer.skipLink,
   transform: "translateY(-200%)",
-  padding: "12px 18px",
-  background: tokens.surface,
-  color: tokens.accent,
-  borderRadius: 8,
-  fontWeight: 650,
-  selectors: { "&:focus": { transform: "translateY(0)", ...focusRing } },
+  padding: `${tokens.space[12]} ${tokens.space[18]}`,
+  background: tokens.color.surface,
+  color: tokens.color.accent,
+  borderRadius: tokens.radius.small,
+  fontWeight: tokens.fontWeight.strong,
+  selectors: {
+    "&:focus": { transform: "translateY(0)", ...focusRing },
+  },
 });
 
 const pageEdge = style({
-  maxWidth: 1200,
+  maxWidth: tokens.size.page,
   marginInline: "auto",
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  padding: "26px 44px",
-  gap: 20,
-  "@media": { [mobile]: { padding: "22px" } },
+  padding: `${tokens.space[26]} ${tokens.space[44]}`,
+  gap: tokens.space[20],
+  "@media": { [media.mobile]: { padding: tokens.space[22] } },
 });
 
-const header = style([pageEdge, { borderBottom: "1px solid #dedde4" }]);
+const header = style([
+  pageEdge,
+  { borderBottom: `${tokens.borderWidth.thin} solid ${tokens.color.divider}` },
+]);
 
 const footer = style([
   pageEdge,
   {
-    borderTop: "1px solid #dedde4",
-    fontSize: 11,
-    color: tokens.muted,
+    borderTop: `${tokens.borderWidth.thin} solid ${tokens.color.divider}`,
+    fontSize: tokens.fontSize[11],
+    color: tokens.color.muted,
     flexWrap: "wrap",
   },
 ]);
@@ -78,117 +87,126 @@ const footer = style([
 const wordmark = style({
   display: "inline-flex",
   alignItems: "center",
-  gap: 10,
-  fontSize: 19,
-  fontWeight: 750,
-  minHeight: 44,
+  gap: tokens.space[10],
+  fontSize: tokens.fontSize[19],
+  fontWeight: tokens.fontWeight.brand,
+  minHeight: tokens.size.link,
   flexWrap: "wrap",
 });
 
 const brandMark = style({
   display: "inline-block",
-  width: 25,
-  height: 17,
+  width: tokens.size.brandWidth,
+  height: tokens.size.brandHeight,
   transform: "skew(-15deg)",
-  background: "#6953be",
+  background: tokens.color.brand,
   flexShrink: 0,
 });
 
 const badge = style({
-  fontSize: 9,
-  letterSpacing: ".12em",
-  background: "#e9e5f4",
-  color: "#5c4a92",
-  padding: "4px 7px",
-  borderRadius: 4,
+  fontSize: tokens.fontSize[9],
+  letterSpacing: tokens.letterSpacing.caption,
+  background: tokens.color.badgeBackground,
+  color: tokens.color.badgeText,
+  padding: `${tokens.space[4]} ${tokens.space[7]}`,
+  borderRadius: tokens.radius.badge,
 });
 
 const libraryNote = style({
-  fontSize: 12,
-  color: tokens.muted,
-  "@media": { [mobile]: { display: "none" } },
+  fontSize: tokens.fontSize[12],
+  color: tokens.color.muted,
+  "@media": { [media.mobile]: { display: "none" } },
 });
 
 const main = style({
-  maxWidth: 1140,
-  minHeight: "calc(100vh - 180px)",
+  maxWidth: tokens.size.content,
+  minHeight: `calc(100vh - ${tokens.size.pageChrome})`,
   marginInline: "auto",
-  padding: "64px 44px",
+  padding: `${tokens.space[64]} ${tokens.space[44]}`,
   display: "grid",
-  gridTemplateColumns: "minmax(0, 1fr) minmax(0, 440px)",
-  gap: 72,
+  gridTemplateColumns: `minmax(0, 1fr) minmax(0, ${tokens.size.form})`,
+  gap: tokens.space[72],
   alignItems: "center",
   selectors: { "&:focus": { outline: "none" } },
   "@media": {
-    [mobile]: {
-      maxWidth: 560,
+    [media.mobile]: {
+      maxWidth: tokens.size.mobileContent,
       gridTemplateColumns: "minmax(0, 1fr)",
-      gap: 40,
-      padding: "40px 22px",
+      gap: tokens.space[40],
+      padding: `${tokens.space[40]} ${tokens.space[22]}`,
     },
   },
 });
 
 const intro = style({
   minWidth: 0,
-  "@media": { [mobile]: { paddingInline: 8 } },
+  "@media": { [media.mobile]: { paddingInline: tokens.space[8] } },
 });
 
 const eyebrow = style({
-  fontSize: 10,
-  letterSpacing: ".18em",
-  fontWeight: 700,
-  color: "#6b5c87",
+  fontSize: tokens.fontSize[10],
+  letterSpacing: tokens.letterSpacing.eyebrow,
+  fontWeight: tokens.fontWeight.bold,
+  color: tokens.color.eyebrow,
 });
 
 const heading = style({
-  fontSize: "clamp(2.5rem, 5vw, 4.125rem)",
-  fontWeight: 550,
-  lineHeight: 1.12,
-  letterSpacing: "-.055em",
-  margin: "22px 0",
+  fontSize: tokens.fontSize.heading,
+  fontWeight: tokens.fontWeight.medium,
+  lineHeight: tokens.lineHeight.heading,
+  letterSpacing: tokens.letterSpacing.heading,
+  margin: `${tokens.space[22]} 0`,
   overflowWrap: "anywhere",
 });
 
-const headingBreak = style({ "@media": { [mobile]: { display: "none" } } });
+const headingBreak = style({
+  "@media": { [media.mobile]: { display: "none" } },
+});
 
-const headingAccent = style({ color: "#7464ac" });
+const headingAccent = style({ color: tokens.color.headingAccent });
 
 const description = style({
-  maxWidth: 350,
-  fontSize: 15,
-  lineHeight: 1.85,
-  color: tokens.muted,
+  maxWidth: tokens.size.description,
+  fontSize: tokens.fontSize[15],
+  lineHeight: tokens.lineHeight.relaxed,
+  color: tokens.color.muted,
 });
 
 const features = style({
   display: "flex",
   flexWrap: "wrap",
-  gap: 8,
+  gap: tokens.space[8],
   padding: 0,
-  margin: "28px 0 0",
+  margin: `${tokens.space[28]} 0 0`,
   listStyle: "none",
 });
 
 const feature = style({
-  fontSize: 11,
-  color: tokens.muted,
-  border: "1px solid #d9d7e1",
-  borderRadius: 20,
-  padding: "6px 10px",
+  fontSize: tokens.fontSize[11],
+  color: tokens.color.muted,
+  border: `${tokens.borderWidth.thin} solid ${tokens.color.featureBorder}`,
+  borderRadius: tokens.radius.pill,
+  padding: `${tokens.space[6]} ${tokens.space[10]}`,
 });
 
 const notice = style({
-  marginTop: 44,
-  paddingLeft: 16,
-  borderLeft: "2px solid #cec5e3",
-  fontSize: 12,
-  "@media": { [mobile]: { marginTop: 28 } },
+  marginTop: tokens.space[44],
+  paddingLeft: tokens.space[16],
+  borderLeft: `${tokens.borderWidth.accent} solid ${tokens.color.noticeBorder}`,
+  fontSize: tokens.fontSize[12],
+  "@media": { [media.mobile]: { marginTop: tokens.space[28] } },
 });
 
-const noticeTitle = style({ margin: "0 0 7px", fontWeight: 650 });
+const noticeTitle = style({
+  margin: `0 0 ${tokens.space[7]}`,
+  fontWeight: tokens.fontWeight.strong,
+});
 
-const noticeText = style({ margin: 0, color: tokens.muted, maxWidth: 320 });
+const noticeText = style({
+  margin: 0,
+  color: tokens.color.muted,
+  maxWidth: tokens.size.notice,
+});
 
 const playground = style({ minWidth: 0 });
 
@@ -196,22 +214,23 @@ const toolbar = style({
   display: "flex",
   justifyContent: "space-between",
   flexWrap: "wrap",
-  gap: "8px 16px",
-  margin: "0 4px 16px",
-  fontSize: 9,
-  color: tokens.muted,
-  letterSpacing: ".1em",
+  gap: `${tokens.space[8]} ${tokens.space[16]}`,
+  margin: `0 ${tokens.space[4]} ${tokens.space[16]}`,
+  fontSize: tokens.fontSize[9],
+  color: tokens.color.muted,
+  letterSpacing: tokens.letterSpacing.label,
 });
 
-const toolbarTitle = style({ fontWeight: 650 });
+const toolbarTitle = style({ fontWeight: tokens.fontWeight.strong });
 
 const form = style({
+  display: "grid",
   position: "relative",
   minWidth: 0,
-  background: tokens.surface,
-  border: `1px solid ${tokens.border}`,
-  borderRadius: 24,
-  padding: "clamp(20px, 4vw, 32px)",
+  background: tokens.color.surface,
+  border: `${tokens.borderWidth.thin} solid ${tokens.color.border}`,
+  borderRadius: tokens.radius.form,
+  padding: tokens.size.formPadding,
 });
 
 const fieldset = style({
@@ -220,20 +239,24 @@ const fieldset = style({
   border: 0,
   minWidth: 0,
   display: "grid",
-  gap: 20,
+  gridArea: "2 / 1",
+  alignContent: "start",
+  gap: tokens.space[20],
+  // Both steps size the same grid cell without exposing the inactive fields.
+  selectors: { "&[hidden]": { visibility: "hidden", pointerEvents: "none" } },
 });
 
 const label = style({
   display: "block",
-  fontSize: 13,
-  fontWeight: 650,
-  marginBottom: 8,
+  fontSize: tokens.fontSize[13],
+  fontWeight: tokens.fontWeight.strong,
+  marginBottom: tokens.space[8],
 });
 
 const requiredText = style({
-  fontSize: 11,
-  fontWeight: 400,
-  color: tokens.muted,
+  fontSize: tokens.fontSize[11],
+  fontWeight: tokens.fontWeight.regular,
+  color: tokens.color.muted,
 });
 
 const input = style({
@@ -241,70 +264,124 @@ const input = style({
   appearance: "none",
   width: "100%",
   minWidth: 0,
-  minHeight: 48,
-  padding: "12px 14px",
-  border: `1px solid ${tokens.border}`,
-  borderRadius: tokens.radius,
-  background: tokens.surface,
-  color: tokens.text,
-  fontSize: 16,
-  lineHeight: 1.5,
-  selectors: { "&::placeholder": { color: tokens.muted, opacity: 1 } },
-});
-
-const fieldRow = style({
-  display: "grid",
-  gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-  gap: 16,
-  "@media": { [narrow]: { gridTemplateColumns: "minmax(0, 1fr)" } },
+  minHeight: tokens.size.control,
+  padding: `${tokens.space[12]} ${tokens.space[14]}`,
+  border: `${tokens.borderWidth.thin} solid ${tokens.color.border}`,
+  borderRadius: tokens.radius.control,
+  background: tokens.color.surface,
+  color: tokens.color.text,
+  fontSize: tokens.fontSize[16],
+  lineHeight: tokens.lineHeight.compact,
+  selectors: { "&::placeholder": { color: tokens.color.muted, opacity: 1 } },
 });
 
 const hint = style({
-  margin: "7px 0 0",
-  fontSize: 12,
-  lineHeight: 1.5,
-  color: tokens.muted,
+  margin: `${tokens.space[7]} 0 0`,
+  fontSize: tokens.fontSize[12],
+  lineHeight: tokens.lineHeight.compact,
+  color: tokens.color.muted,
 });
 
 const submitButton = style({
   display: "flex",
   justifyContent: "space-between",
   alignItems: "center",
-  gap: 12,
-  minHeight: 48,
-  fontSize: 14,
-  fontWeight: 650,
+  gap: tokens.space[12],
+  minHeight: tokens.size.control,
+  fontSize: tokens.fontSize[14],
+  fontWeight: tokens.fontWeight.strong,
   border: 0,
-  borderRadius: tokens.radius,
-  padding: "14px 18px",
-  background: tokens.accent,
-  color: tokens.onAccent,
+  borderRadius: tokens.radius.control,
+  padding: `${tokens.space[14]} ${tokens.space[18]}`,
+  background: tokens.color.accent,
+  color: tokens.color.onAccent,
   cursor: "pointer",
-  selectors: { "&:hover": { background: "#4538b5" } },
+  selectors: { "&:hover": { background: tokens.color.accentHover } },
 });
 
 const formNote = style({
-  fontSize: 11,
-  lineHeight: 1.6,
+  fontSize: tokens.fontSize[11],
+  lineHeight: tokens.lineHeight.body,
   textAlign: "center",
-  color: tokens.muted,
-  margin: "16px 12px 0",
+  color: tokens.color.muted,
+  margin: `${tokens.space[16]} ${tokens.space[12]} 0`,
 });
 
-const preview = style({ marginBottom: 28 });
+const actions = style({
+  display: "grid",
+  gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+  gap: tokens.space[12],
+});
+
+const backButton = style([
+  submitButton,
+  {
+    background: tokens.color.surface,
+    color: tokens.color.text,
+    border: `${tokens.borderWidth.thin} solid ${tokens.color.border}`,
+    selectors: { "&:hover": { background: tokens.color.page } },
+  },
+]);
+
+const preview = style({
+  marginBottom: tokens.space[28],
+  perspective: tokens.size.perspective,
+});
 
 const card = style({
-  aspectRatio: "1.65",
-  borderRadius: 18,
+  aspectRatio: tokens.size.cardRatio,
+  position: "relative",
+  transformStyle: "preserve-3d",
+  transition: `transform ${tokens.motion.flipDuration} ${tokens.motion.flipEasing}`,
+  selectors: { '&[data-side="back"]': { transform: "rotateY(180deg)" } },
+  "@media": { [media.reducedMotion]: { transition: "none" } },
+});
+
+const cardFace = style({
+  position: "absolute",
+  inset: 0,
+  backfaceVisibility: "hidden",
+  borderRadius: tokens.radius.card,
   overflow: "hidden",
-  padding: "clamp(16px, 4vw, 26px)",
-  color: "#fff",
-  background:
-    "radial-gradient(ellipse at 85% 0%,#8270d6 0,transparent 60%),linear-gradient(120deg,#202847,#42347b)",
-  boxShadow: "0 12px 24px #1a174b22",
+  padding: tokens.size.cardPadding,
+  color: tokens.color.cardText,
+  background: tokens.background.card,
+  boxShadow: tokens.shadow.card,
   display: "flex",
   flexDirection: "column",
   justifyContent: "space-between",
+});
+
+const cardBack = style([
+  cardFace,
+  {
+    transform: "rotateY(180deg)",
+    paddingInline: 0,
+    justifyContent: "flex-start",
+  },
+]);
+
+const magneticStripe = style({
+  height: tokens.size.stripeHeight,
+  background: tokens.color.cardStripe,
+  marginTop: tokens.space[4],
+});
+
+const signature = style({
+  margin: `${tokens.space[20]} ${tokens.space[24]} ${tokens.space[8]}`,
+  padding: `${tokens.space[6]} ${tokens.space[12]}`,
+  background: tokens.color.signatureBackground,
+  color: tokens.color.signatureText,
+  textAlign: "right",
+  fontFamily: tokens.fontFamily.security,
+  letterSpacing: tokens.letterSpacing.security,
+});
+
+const cardBackCaption = style({
+  margin: `0 ${tokens.space[24]}`,
+  fontSize: tokens.fontSize[9],
+  letterSpacing: tokens.letterSpacing.label,
+  textAlign: "right",
 });
 
 const cardTop = style({
@@ -314,33 +391,33 @@ const cardTop = style({
 });
 
 const chip = style({
-  width: 35,
-  height: 27,
+  width: tokens.size.chipWidth,
+  height: tokens.size.chipHeight,
   flexShrink: 0,
   position: "relative",
-  border: "1px solid #f1ddaa",
-  borderRadius: 6,
-  background: "linear-gradient(135deg,#e8d4a9,#b79d65)",
+  border: `${tokens.borderWidth.thin} solid ${tokens.color.chipBorder}`,
+  borderRadius: tokens.radius.chip,
+  background: tokens.background.chip,
   selectors: {
     "&::after": {
       content: '""',
       position: "absolute",
-      inset: "8px 0",
-      borderBlock: "1px solid #856b3e",
+      inset: `${tokens.space[8]} 0`,
+      borderBlock: `${tokens.borderWidth.thin} solid ${tokens.color.chipDivider}`,
     },
   },
 });
 
 const cardBrand = style({
-  fontSize: 13,
-  letterSpacing: ".05em",
-  fontWeight: 650,
+  fontSize: tokens.fontSize[13],
+  letterSpacing: tokens.letterSpacing.brand,
+  fontWeight: tokens.fontWeight.strong,
 });
 
 const cardNumber = style({
-  fontFamily: "ui-monospace, monospace",
-  letterSpacing: ".06em",
-  fontSize: "clamp(14px, 4vw, 21px)",
+  fontFamily: tokens.fontFamily.mono,
+  letterSpacing: tokens.letterSpacing.number,
+  fontSize: tokens.fontSize.cardNumber,
   whiteSpace: "nowrap",
 });
 
@@ -348,23 +425,26 @@ const cardBottom = style({
   display: "flex",
   justifyContent: "space-between",
   alignItems: "end",
-  gap: 12,
+  gap: tokens.space[12],
 });
 
-const cardName = style({ fontSize: 11, letterSpacing: ".07em" });
+const cardName = style({
+  fontSize: tokens.fontSize[11],
+  letterSpacing: tokens.letterSpacing.name,
+});
 
 const cardExpiry = style({
-  fontSize: 11,
+  fontSize: tokens.fontSize[11],
   fontVariantNumeric: "tabular-nums",
   textAlign: "right",
 });
 
 const cardCaption = style({
   display: "block",
-  fontSize: 8,
-  letterSpacing: ".12em",
-  color: "#dfdcee",
-  marginBottom: 4,
+  fontSize: tokens.fontSize[8],
+  letterSpacing: tokens.letterSpacing.caption,
+  color: tokens.color.cardCaption,
+  marginBottom: tokens.space[4],
 });
 
 export const styles = {
@@ -396,12 +476,18 @@ export const styles = {
   label,
   requiredText,
   input,
-  fieldRow,
   hint,
   submitButton,
+  actions,
+  backButton,
   formNote,
   preview,
   card,
+  cardFace,
+  cardBack,
+  magneticStripe,
+  signature,
+  cardBackCaption,
   cardTop,
   chip,
   cardBrand,

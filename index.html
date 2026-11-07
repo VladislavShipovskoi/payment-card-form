@@ -46,7 +46,7 @@
       <section data-ui="playground" aria-labelledby="form-title">
         <div data-ui="toolbar" aria-hidden="true">
           <span data-ui="toolbarTitle">THE INTERACTIVE PREVIEW</span>
-          <span>01 — CARD DETAILS</span>
+          <span id="step-indicator">01 — CARD DETAILS</span>
         </div>
         <form
           id="card-form"
@@ -56,23 +56,30 @@
         >
           <h2 id="form-title" data-ui="srOnly">Card details</h2>
           <div data-ui="preview" aria-hidden="true">
-            <div data-ui="card">
-              <div data-ui="cardTop">
-                <span data-ui="chip"></span>
-                <span data-ui="cardBrand">CARD</span>
+            <div id="card-preview" data-ui="card" data-side="front">
+              <div data-ui="cardFace">
+                <div data-ui="cardTop">
+                  <span data-ui="chip"></span>
+                  <span data-ui="cardBrand">CARD</span>
+                </div>
+                <div data-ui="cardNumber">•••• •••• •••• ••••</div>
+                <div data-ui="cardBottom">
+                  <span data-ui="cardName">NAME ON CARD</span>
+                  <span data-ui="cardExpiry"
+                    ><span data-ui="cardCaption">EXPIRY DATE</span>MM/YY</span
+                  >
+                </div>
               </div>
-              <div data-ui="cardNumber">•••• •••• •••• ••••</div>
-              <div data-ui="cardBottom">
-                <span data-ui="cardName">NAME ON CARD</span>
-                <span data-ui="cardExpiry"
-                  ><span data-ui="cardCaption">EXPIRY DATE</span>MM/YY</span
-                >
+              <div data-ui="cardBack">
+                <div data-ui="magneticStripe"></div>
+                <div data-ui="signature">•••</div>
+                <p data-ui="cardBackCaption">SECURITY CODE</p>
               </div>
             </div>
           </div>
 
-          <fieldset data-ui="fieldset">
-            <legend data-ui="srOnly">Enter your test card details</legend>
+          <fieldset id="details-step" data-ui="fieldset">
+            <legend data-ui="srOnly">Step 1 of 2: card details</legend>
             <div>
               <label for="card-number" data-ui="label"
                 >Card number
@@ -91,49 +98,25 @@
                 placeholder="1234 5678 9012 3456"
               />
             </div>
-            <div data-ui="fieldRow">
-              <div>
-                <label for="card-expiry" data-ui="label"
-                  >Expiry date
-                  <span data-ui="requiredText">(required)</span></label
-                >
-                <input
-                  id="card-expiry"
-                  name="expiry"
-                  data-ui="input"
-                  type="text"
-                  inputmode="numeric"
-                  autocomplete="cc-exp"
-                  required
-                  spellcheck="false"
-                  autocapitalize="off"
-                  placeholder="MM/YY"
-                  aria-describedby="expiry-hint"
-                />
-                <p id="expiry-hint" data-ui="hint">Month and year: MM/YY</p>
-              </div>
-              <div>
-                <label for="card-cvv" data-ui="label"
-                  >Security code
-                  <span data-ui="requiredText">(required)</span></label
-                >
-                <input
-                  id="card-cvv"
-                  name="cvv"
-                  data-ui="input"
-                  type="password"
-                  inputmode="numeric"
-                  autocomplete="cc-csc"
-                  required
-                  spellcheck="false"
-                  autocapitalize="off"
-                  placeholder="•••"
-                  aria-describedby="cvv-hint"
-                />
-                <p id="cvv-hint" data-ui="hint">
-                  The 3 or 4 digit code on your card.
-                </p>
-              </div>
+            <div>
+              <label for="card-expiry" data-ui="label"
+                >Expiry date
+                <span data-ui="requiredText">(required)</span></label
+              >
+              <input
+                id="card-expiry"
+                name="expiry"
+                data-ui="input"
+                type="text"
+                inputmode="numeric"
+                autocomplete="cc-exp"
+                required
+                spellcheck="false"
+                autocapitalize="off"
+                placeholder="MM/YY"
+                aria-describedby="expiry-hint"
+              />
+              <p id="expiry-hint" data-ui="hint">Month and year: MM/YY</p>
             </div>
             <div>
               <label for="card-holder" data-ui="label"
@@ -153,8 +136,41 @@
               />
             </div>
             <button type="submit" data-ui="submitButton">
-              Try the form <span aria-hidden="true">↗</span>
+              Continue to security code <span aria-hidden="true">→</span>
             </button>
+          </fieldset>
+
+          <fieldset id="security-step" data-ui="fieldset" hidden>
+            <legend data-ui="srOnly">Step 2 of 2: security code</legend>
+
+            <div>
+              <label for="card-cvv" data-ui="label"
+                >Security code
+                <span data-ui="requiredText">(required)</span></label
+              >
+              <input
+                id="card-cvv"
+                name="cvv"
+                data-ui="input"
+                type="password"
+                inputmode="numeric"
+                autocomplete="cc-csc"
+                required
+                spellcheck="false"
+                autocapitalize="off"
+                placeholder="•••"
+                aria-describedby="cvv-hint"
+              />
+              <p id="cvv-hint" data-ui="hint">
+                The 3 or 4 digit code on your card.
+              </p>
+          </div>
+            <div data-ui="actions">
+              <button id="back-button" type="button" data-ui="backButton">Back to details</button>
+              <button type="submit" data-ui="submitButton">
+                Try the form <span aria-hidden="true">↗</span>
+              </button>
+            </div>
           </fieldset>
         </form>
         <p data-ui="formNote">
