@@ -121,6 +121,7 @@ export const tokens = createGlobalTheme(":root", {
     cardPadding: "clamp(16px, 4vw, 26px)",
     cardRatio: "1.65",
     perspective: "1000px",
+    statusMinHeight: "3lh",
   },
   background: {
     card: "radial-gradient(ellipse at 85% 0%,#8270d6 0,transparent 60%),linear-gradient(120deg,#202847,#42347b)",
@@ -129,4 +130,5 @@ export const tokens = createGlobalTheme(":root", {
   shadow: { card: "0 12px 24px #1a174b22" },
   motion: { flipDuration: "600ms", flipEasing: "cubic-bezier(.2,.7,.2,1)" },
   layer: { skipLink: "10" },
+  opacity: { disabled: "0.6" },
 });

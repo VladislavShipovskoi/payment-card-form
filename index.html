@@ -97,6 +97,12 @@
                 autocapitalize="off"
                 placeholder="1234 5678 9012 3456"
               />
+              <p
+                id="number-error"
+                data-ui="error"
+                aria-live="polite"
+                aria-atomic="true"
+              ></p>
             </div>
             <div>
               <label for="card-expiry" data-ui="label"
@@ -117,6 +123,12 @@
                 aria-describedby="expiry-hint"
               />
               <p id="expiry-hint" data-ui="hint">Month and year: MM/YY</p>
+              <p
+                id="expiry-error"
+                data-ui="error"
+                aria-live="polite"
+                aria-atomic="true"
+              ></p>
             </div>
             <div>
               <label for="card-holder" data-ui="label"
@@ -134,6 +146,12 @@
                 autocapitalize="words"
                 placeholder="Name on card"
               />
+              <p
+                id="holder-error"
+                data-ui="error"
+                aria-live="polite"
+                aria-atomic="true"
+              ></p>
             </div>
             <button type="submit" data-ui="submitButton">
               Continue to security code <span aria-hidden="true">→</span>
@@ -164,15 +182,30 @@
               <p id="cvv-hint" data-ui="hint">
                 The 3 or 4 digit code on your card.
               </p>
-          </div>
+              <p
+                id="cvv-error"
+                data-ui="error"
+                aria-live="polite"
+                aria-atomic="true"
+              ></p>
+            </div>
             <div data-ui="actions">
-              <button id="back-button" type="button" data-ui="backButton">Back to details</button>
+              <button id="back-button" type="button" data-ui="backButton">
+                Back to details
+              </button>
               <button type="submit" data-ui="submitButton">
                 Try the form <span aria-hidden="true">↗</span>
               </button>
             </div>
           </fieldset>
+          <button type="reset" data-ui="resetButton">Reset form</button>
         </form>
+        <p
+          id="form-status"
+          data-ui="status"
+          role="status"
+          aria-atomic="true"
+        ></p>
         <p data-ui="formNote">
           This demo does not validate cards or make payments.
         </p>

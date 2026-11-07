@@ -48,13 +48,14 @@ const skipLink = style({
   left: tokens.space[12],
   zIndex: tokens.layer.skipLink,
   transform: "translateY(-200%)",
+  clipPath: "inset(50%)",
   padding: `${tokens.space[12]} ${tokens.space[18]}`,
   background: tokens.color.surface,
   color: tokens.color.accent,
   borderRadius: tokens.radius.small,
   fontWeight: tokens.fontWeight.strong,
   selectors: {
-    "&:focus": { transform: "translateY(0)", ...focusRing },
+    "&:focus": { transform: "translateY(0)", clipPath: "none", ...focusRing },
   },
 });
 
@@ -259,6 +260,11 @@ const requiredText = style({
   color: tokens.color.muted,
 });
 
+const disabledControl = {
+  opacity: tokens.opacity.disabled,
+  cursor: "not-allowed",
+};
+
 const input = style({
   display: "block",
   appearance: "none",
@@ -272,7 +278,11 @@ const input = style({
   color: tokens.color.text,
   fontSize: tokens.fontSize[16],
   lineHeight: tokens.lineHeight.compact,
-  selectors: { "&::placeholder": { color: tokens.color.muted, opacity: 1 } },
+  selectors: {
+    "&::placeholder": { color: tokens.color.muted, opacity: 1 },
+    '&[aria-invalid="true"]': { borderColor: tokens.color.error },
+    "&:disabled": disabledControl,
+  },
 });
 
 const hint = style({
@@ -280,6 +290,14 @@ const hint = style({
   fontSize: tokens.fontSize[12],
   lineHeight: tokens.lineHeight.compact,
   color: tokens.color.muted,
+});
+
+const error = style({
+  margin: 0,
+  color: tokens.color.error,
+  fontSize: tokens.fontSize[12],
+  lineHeight: tokens.lineHeight.compact,
+  selectors: { "&:not(:empty)": { marginTop: tokens.space[7] } },
 });
 
 const submitButton = style({
@@ -296,7 +314,10 @@ const submitButton = style({
   background: tokens.color.accent,
   color: tokens.color.onAccent,
   cursor: "pointer",
-  selectors: { "&:hover": { background: tokens.color.accentHover } },
+  selectors: {
+    "&:hover:not(:disabled)": { background: tokens.color.accentHover },
+    "&:disabled": disabledControl,
+  },
 });
 
 const formNote = style({
@@ -319,9 +340,31 @@ const backButton = style([
     background: tokens.color.surface,
     color: tokens.color.text,
     border: `${tokens.borderWidth.thin} solid ${tokens.color.border}`,
-    selectors: { "&:hover": { background: tokens.color.page } },
+    selectors: { "&:hover:not(:disabled)": { background: tokens.color.page } },
   },
 ]);
+
+const resetButton = style({
+  marginTop: tokens.space[12],
+  padding: `${tokens.space[8]} ${tokens.space[12]}`,
+  minHeight: tokens.size.link,
+  border: 0,
+  borderRadius: tokens.radius.small,
+  background: "transparent",
+  color: tokens.color.muted,
+  fontSize: tokens.fontSize[12],
+  cursor: "pointer",
+  selectors: { "&:disabled": disabledControl },
+});
+
+const status = style({
+  margin: `${tokens.space[12]} ${tokens.space[12]} 0`,
+  minHeight: tokens.size.statusMinHeight,
+  fontSize: tokens.fontSize[12],
+  lineHeight: tokens.lineHeight.body,
+  color: tokens.color.muted,
+  textAlign: "center",
+});
 
 const preview = style({
   marginBottom: tokens.space[28],
@@ -477,9 +520,12 @@ export const styles = {
   requiredText,
   input,
   hint,
+  error,
   submitButton,
   actions,
   backButton,
+  resetButton,
+  status,
   formNote,
   preview,
   card,
